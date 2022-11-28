@@ -18,6 +18,8 @@ spark = SparkSession.builder.appName('ProyectoSpark').getOrCreate()
 
 df = spark.read.option("header", "true").csv("datosTmax.csv")
 
+precip_4 = spark.read.options("header", "true").csv("datosPrecip4.csv")
+
 #quitar los blancos más adelante
 
 #Avg por año
@@ -25,15 +27,23 @@ df.groupBy("Anio").agg({'Dia1':'avg', 'Dia2':'avg', 'Dia3':'avg', 'Dia4':'avg', 
 
 
 
+DiasLluvia = []
 def average(line): #para cada tupla año,mes calcula la media de temperatura
 	sum = 0
-	for i in range (3, 34):#no se si estan bien los rangos
+	for i in range (3, 34):#no estan bien los rangos
 		sum += line[i]
 	return (line[0], sum/31)
 
+def nDias(line):
+	cont = 0
+	for i in range (6, 37):#no estan bien los rangos
+		if(line[i] > 0):
+			cont += 1
+	return (line[0], line[2], line[3], line[4], cont) #n de dias con lluvia en año, mes, modelo, rejilla
 
 #Hacer el avg de cada día
 t_max_avg_4.5 = df.rdd.map(average).collect() #rdd con tuplas (año,media de temperatura)
+n_dias_precip_4.5 = precip_4.rdd.map(nDias).map(diasLluvia).collect()
 
 ''' Ejemplo:
 
