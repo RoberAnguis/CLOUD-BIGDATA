@@ -23,7 +23,7 @@ precip_4 = spark.read.options("header", "true").option("sep",";").csv("datosPrec
 #quitar los blancos más adelante
 
 #Avg por año
-df.groupBy("Anio").agg({'Dia1':'avg', 'Dia2':'avg', 'Dia3':'avg', 'Dia4':'avg', 'Dia5':'avg', 'Dia6':'avg', 'Dia7':'avg', 'Dia8':'avg', 'Dia9':'avg', 'Dia10':'avg', 'Dia11':'avg', 'Dia12':'avg', 'Dia13':'avg', 'Dia14':'avg', 'Dia15':'avg', 'Dia16':'avg', 'Dia17':'avg', 'Dia18':'avg', 'Dia19':'avg', 'Dia20':'avg', 'Dia21':'avg', 'Dia22':'avg', 'Dia23':'avg', 'Dia24':'avg', 'Dia25':'avg', 'Dia26':'avg', 'Dia27':'avg', 'Dia28':'avg', 'Dia29':'avg', 'Dia30':'avg', 'Dia31':'avg'}).show()
+df.groupBy("Año").agg({'Día 1':'avg', 'Día 2':'avg', 'Día 3':'avg', 'Día 4':'avg', 'Día 5':'avg', 'Día 6':'avg', 'Día 7':'avg', 'Día 8':'avg', 'Día 9':'avg', 'Día 10':'avg', 'Día 11':'avg', 'Día 12':'avg', 'Día 13':'avg', 'Día 14':'avg', 'Día 15':'avg', 'Día 16':'avg', 'Día 17':'avg', 'Día 18':'avg', 'Día 19':'avg', 'Día 20':'avg', 'Día 21':'avg', 'Día 22':'avg', 'Día 23':'avg', 'Día 24':'avg', 'Día 25':'avg', 'Día 26':'avg', 'Día 27':'avg', 'Día 28':'avg', 'Día 29':'avg', 'Día 30':'avg', 'Día 31':'avg'}).sort("Año").show()
 
 
 
