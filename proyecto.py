@@ -31,9 +31,12 @@ DiasLluvia = []
 DiasLluvia2 = []
 def average(line): #para cada tupla año,mes calcula la media de temperatura
 	sum = 0
+	cont = 0
 	for i in range (2, 33):#creo que estan bien los rangos
-		sum += Decimal(line[i])#da error, esta cogiendo valores null
-	return (line[0], (line[1], sum/31))
+		if (line[i] != None):
+			sum += Decimal(line[i])
+			cont += 1
+	return (line[0], (line[1], sum/cont))
 
 def nDiasLluvia(line):
 	cont = 0
