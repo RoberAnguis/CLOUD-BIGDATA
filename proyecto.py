@@ -6,7 +6,7 @@ from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 
 from pyspark.sql.functions import *
-
+from decimal import Decimal
 
 import sys
 import re
@@ -23,7 +23,7 @@ precip_4 = spark.read.options("header", "true").option("sep",";").csv("datosPrec
 #quitar los blancos más adelante
 
 #Avg por año
-df.groupBy("Año", "Mes").agg({'Día 1':'avg', 'Día 2':'avg', 'Día 3':'avg', 'Día 4':'avg', 'Día 5':'avg', 'Día 6':'avg', 'Día 7':'avg', 'Día 8':'avg', 'Día 9':'avg', 'Día 10':'avg', 'Día 11':'avg', 'Día 12':'avg', 'Día 13':'avg', 'Día 14':'avg', 'Día 15':'avg', 'Día 16':'avg', 'Día 17':'avg', 'Día 18':'avg', 'Día 19':'avg', 'Día 20':'avg', 'Día 21':'avg', 'Día 22':'avg', 'Día 23':'avg', 'Día 24':'avg', 'Día 25':'avg', 'Día 26':'avg', 'Día 27':'avg', 'Día 28':'avg', 'Día 29':'avg', 'Día 30':'avg', 'Día 31':'avg'}).sort("Año", "Mes").show()
+df2 = df.groupBy("Año", "Mes").agg({'Día 1':'avg', 'Día 2':'avg', 'Día 3':'avg', 'Día 4':'avg', 'Día 5':'avg', 'Día 6':'avg', 'Día 7':'avg', 'Día 8':'avg', 'Día 9':'avg', 'Día 10':'avg', 'Día 11':'avg', 'Día 12':'avg', 'Día 13':'avg', 'Día 14':'avg', 'Día 15':'avg', 'Día 16':'avg', 'Día 17':'avg', 'Día 18':'avg', 'Día 19':'avg', 'Día 20':'avg', 'Día 21':'avg', 'Día 22':'avg', 'Día 23':'avg', 'Día 24':'avg', 'Día 25':'avg', 'Día 26':'avg', 'Día 27':'avg', 'Día 28':'avg', 'Día 29':'avg', 'Día 30':'avg', 'Día 31':'avg'}).sort("Año", "Mes").show()
 #seguramente halla que poner groupBy("Año", "Mes") y luego especificar
 
 
@@ -32,7 +32,7 @@ DiasLluvia2 = []
 def average(line): #para cada tupla año,mes calcula la media de temperatura
 	sum = 0
 	for i in range (2, 33):#creo que estan bien los rangos
-		sum += line[i]
+		sum += Decimal(line[i])#da error, esta cogiendo valores null
 	return (line[0], (line[1], sum/31))
 
 def nDiasLluvia(line):
@@ -61,8 +61,8 @@ def nLluviaAnio(line):#suma para cada año los dias de lluvia, deja los resultad
 	
 
 #Hacer el avg de cada día
-t_max_avg_4.5 = df.rdd.map(average).collect() #rdd con tuplas (año,media de temperatura) aqui hay que hacer un reduce by key
-n_dias_precip_4.5 = precip_4.rdd.map(nDiasLluvia).map(nLluviaAnio).collect() #deja los resultados en el diccionario DiasLluvia2
+t_max_avg_4 = df2.rdd.map(average).collect() #rdd con tuplas (año,media de temperatura) aqui hay que hacer un reduce by key
+n_dias_precip_4 = precip_4.rdd.map(nDiasLluvia).map(nLluviaAnio).collect() #deja los resultados en el diccionario DiasLluvia2
 
 
 
