@@ -18,7 +18,7 @@ spark = SparkSession.builder.appName('ProyectoSpark').getOrCreate()
 
 df = spark.read.option("header", "true").option("sep",";").csv("datosTmax.csv")
 
-precip_4 = spark.read.options("header", "true").option("sep",";").csv("datosPrecip4.csv")
+
 
 #quitar los blancos más adelante
 
@@ -27,8 +27,6 @@ df2 = df.groupBy("Año", "Mes").agg({'Día 1':'avg', 'Día 2':'avg', 'Día 3':'a
 #seguramente halla que poner groupBy("Año", "Mes") y luego especificar
 
 
-DiasLluvia = []
-DiasLluvia2 = []
 def average(line): #para cada tupla año,mes calcula la media de temperatura
 	sum = 0
 	cont = 0
@@ -38,35 +36,12 @@ def average(line): #para cada tupla año,mes calcula la media de temperatura
 			cont += 1
 	return (line[0], (line[1], sum/cont))
 
-def nDiasLluvia(line):
-	cont = 0
-	for i in range (6, 37):#no estan bien los rangos
-		if(line[i] > 0):
-			cont += 1
-	if((line[0], line[1]) in DiasLluvia):
-		return ((-1,-1), -1) #basura para poder filtrarla despues
-	else:
-		DiasLluvia[(line[0],line[1])] = cont
-	return ((line[0], line[1]), cont) #n de dias con lluvia en año, mes (voy a coger para cada año/mes uno arbitrario de entre todas la rejillas y modelos)
-
-def nLluviaAnio(line):#suma para cada año los dias de lluvia, deja los resultados en el diccionario DiasLluvia2
-	if (line[0][0] == -1):
-		return
-	else:
-		if(line[0][0] in DiasLluvia2):
-			valor = DiasLluvia2[line[0][0]]
-			valor += line[1]
-			DiasLluvia2[line[0][0]] = valor
-		else:
-			DiasLluvia2[line[0][0]] = line[1]
-		return 
 			
 	
 
 #Hacer el avg de cada día
-t_max_avg_4 = df2.rdd.map(average).collect() #rdd con tuplas (año,media de temperatura) aqui hay que hacer un reduce by key
-n_dias_precip_4 = precip_4.rdd.map(nDiasLluvia).map(nLluviaAnio).collect() #deja los resultados en el diccionario DiasLluvia2
-
+t_max_avg_4 = df2.rdd.map(average).reduceByKey(lambda a,b: ("basura", (a[1]+b[1]))).map(lambda x: (x[0], x[1][1]/12))
+t_max_avg_4.collect()
 
 
 
