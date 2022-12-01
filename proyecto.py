@@ -33,7 +33,7 @@ def average(line): #para cada tupla año,mes calcula la media de temperatura
 	sum = 0
 	for i in range (2, 33):#creo que estan bien los rangos
 		sum += line[i]
-	return (line[0], line[1], sum/31)
+	return (line[0], (line[1], sum/31))
 
 def nDiasLluvia(line):
 	cont = 0
@@ -61,7 +61,7 @@ def nLluviaAnio(line):#suma para cada año los dias de lluvia, deja los resultad
 	
 
 #Hacer el avg de cada día
-t_max_avg_4.5 = df.rdd.map(average).collect() #rdd con tuplas (año,media de temperatura)
+t_max_avg_4.5 = df.rdd.map(average).collect() #rdd con tuplas (año,media de temperatura) aqui hay que hacer un reduce by key
 n_dias_precip_4.5 = precip_4.rdd.map(nDiasLluvia).map(nLluviaAnio).collect() #deja los resultados en el diccionario DiasLluvia2
 
 
