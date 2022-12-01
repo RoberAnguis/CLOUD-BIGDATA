@@ -16,9 +16,9 @@ sc = SparkContext(conf = conf)
 
 spark = SparkSession.builder.appName('ProyectoSpark').getOrCreate()
 
-df = spark.read.option("header", "true").csv("datosTmax.csv")
+df = spark.read.option("header", "true").option("sep",";").csv("datosTmax.csv")
 
-precip_4 = spark.read.options("header", "true").csv("datosPrecip4.csv")
+precip_4 = spark.read.options("header", "true").option("sep",";").csv("datosPrecip4.csv")
 
 #quitar los blancos más adelante
 
