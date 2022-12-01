@@ -31,9 +31,9 @@ DiasLluvia = []
 DiasLluvia2 = []
 def average(line): #para cada tupla año,mes calcula la media de temperatura
 	sum = 0
-	for i in range (3, 34):#no estan bien los rangos
+	for i in range (2, 33):#creo que estan bien los rangos
 		sum += line[i]
-	return (line[0], sum/31)
+	return (line[0], line[1], sum/31)
 
 def nDiasLluvia(line):
 	cont = 0
