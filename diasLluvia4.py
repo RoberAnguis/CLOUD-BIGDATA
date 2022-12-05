@@ -57,10 +57,6 @@ spark = SparkSession.builder.appName('ProyectoSpark').getOrCreate()
 df = spark.read.option("header", "true").option("sep",";").schema(schema).csv("Preci4.csv")
 
 
-#Avg por año y mes
-
-
-
 def diasLluvia(line): #para cada tupla año,mes calcula la media de temperatura
 	cont = 0
 	for i in range (6, 37):#creo que estan bien los rangos
@@ -77,11 +73,10 @@ dias_lluvia_4 = df.rdd.map(diasLluvia)
 df_res = spark.createDataFrame(dias_lluvia).toDF("Año","Mes","Modelo","Punto", "DiasLluvia")
 df2 = df_res.groupBy("Año", "Mes", "Modelo").avg("DiasLluvia")
 df3 = df2.groupBy("Año", "Mes").avg("avg(DiasLluvia)")
-df_final = df3.groupBy("Año").avg("avg(avg(DiasLluvia))").sort("Año")
+df_final = df3.groupBy("Año").sum("avg(avg(DiasLluvia))").sort("Año")
 
-df_fin = df_final.withColumnRenamed("avg(avg(avg(DiasLluvia)))","nDiasLluvia")
+df_fin = df_final.withColumnRenamed("sum(avg(avg(DiasLluvia)))","nDiasLluvia")
 
-#hacer lo mismo con Tmin y hacer la media entre ambos
 
 
 df_fin.write.mode("overwrite").option("header", "true").option("sep",";").csv("DiasLluvia4.csv") # guardamos en csv
