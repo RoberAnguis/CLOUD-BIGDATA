@@ -1,4 +1,4 @@
-#Tmax
+
 
 
 from pyspark import SparkConf, SparkContext
@@ -112,6 +112,10 @@ def mediaMinMax(line):
 	return (line[0], media)
 
 rdd_final.map(mediaMinMax).collect()
+
+
+df_res = spark.createDataFrame(rdd_final).toDF("Año","Avg_Temp") # reconvertimos a df
+df_res.write.mode("overwrite").option("header", "true").option("sep",";").csv("Tavg4.csv") # guardamos en csv
 
 
 
