@@ -111,7 +111,7 @@ def mediaMinMax(line):
 	media = (line[1][0] + line[1][1])/2
 	return (line[0], media)
 
-rdd_ final = rdd_final.map(mediaMinMax)
+rdd_final = rdd_final.map(mediaMinMax)
 rdd_final.collect()
 
 
