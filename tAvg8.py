@@ -111,7 +111,8 @@ def mediaMinMax(line):
 	media = (line[1][0] + line[1][1])/2
 	return (line[0], media)
 
-rdd_final.map(mediaMinMax).collect()
+rdd_ final = rdd_final.map(mediaMinMax)
+rdd_final.collect()
 
 
 df_res = spark.createDataFrame(rdd_final).toDF("Año","Avg_Temp") # reconvertimos a df

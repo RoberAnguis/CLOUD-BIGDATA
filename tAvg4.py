@@ -69,7 +69,7 @@ def average(line): #para cada tupla año,mes calcula la media de temperatura
 	cont = 0
 	for i in range (2, 33):#creo que estan bien los rangos
 		if (line[i] != None):
-			sum += Decimal(line[i])
+			sum += line[i]
 			cont += 1
 	return (line[0], (line[1], sum/cont))
 
@@ -96,7 +96,7 @@ Año	 Avg
 .
 2020     23
 .
-.
+.rm 
 .
 2100     27
  '''
@@ -111,7 +111,8 @@ def mediaMinMax(line):
 	media = (line[1][0] + line[1][1])/2
 	return (line[0], media)
 
-rdd_final.map(mediaMinMax).collect()
+rdd_final = rdd_final.map(mediaMinMax)
+rdd_final.collect()
 
 
 df_res = spark.createDataFrame(rdd_final).toDF("Año","Avg_Temp") # reconvertimos a df
