@@ -70,7 +70,7 @@ def diasLluvia(line): #para cada tupla año,mes calcula la media de temperatura
 
 #Hacer el avg de cada día
 dias_lluvia_8 = df.rdd.map(diasLluvia)
-df_res = spark.createDataFrame(dias_lluvia).toDF("Año","Mes","Modelo","Punto", "DiasLluvia")
+df_res = spark.createDataFrame(dias_lluvia_8).toDF("Año","Mes","Modelo","Punto", "DiasLluvia")
 df2 = df_res.groupBy("Año", "Mes", "Modelo").avg("DiasLluvia")
 df3 = df2.groupBy("Año", "Mes").avg("avg(DiasLluvia)")
 df_final = df3.groupBy("Año").sum("avg(avg(DiasLluvia))").sort("Año")
