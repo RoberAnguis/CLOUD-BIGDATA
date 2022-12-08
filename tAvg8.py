@@ -116,6 +116,7 @@ rdd_final.collect()
 
 
 df_res = spark.createDataFrame(rdd_final).toDF("Año","Avg_Temp") # reconvertimos a df
+df_res = df_res.sort("Año")
 df_res.write.mode("overwrite").option("header", "true").option("sep",";").csv("Tavg8.csv") # guardamos en csv
 
 
