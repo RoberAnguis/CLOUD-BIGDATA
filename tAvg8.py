@@ -1,6 +1,5 @@
 
 
-
 from pyspark import SparkConf, SparkContext
 
 from pyspark.sql import SparkSession
@@ -69,7 +68,7 @@ def average(line): #para cada tupla año,mes calcula la media de temperatura
 	cont = 0
 	for i in range (2, 33):#creo que estan bien los rangos
 		if (line[i] != None):
-			sum += Decimal(line[i])
+			sum += line[i]
 			cont += 1
 	return (line[0], (line[1], sum/cont))
 
@@ -96,7 +95,7 @@ Año	 Avg
 .
 2020     23
 .
-.
+.rm 
 .
 2100     27
  '''
@@ -118,6 +117,27 @@ rdd_final.collect()
 df_res = spark.createDataFrame(rdd_final).toDF("Año","Avg_Temp") # reconvertimos a df
 df_res = df_res.sort("Año")
 df_res.write.mode("overwrite").option("header", "true").option("sep",";").csv("Tavg8.csv") # guardamos en csv
+
+
+dic = {}
+dic2 = {}
+contador = 0
+
+
+dic = rdd_final.collectAsMap()
+
+
+for i in range (2007, 2101):
+    dic2[str(i)] = dic[str(i)]-dic[str(i-1)]
+
+lista = list(dic2.items())
+
+df_res = spark.createDataFrame(lista, ["Año", "Variación"])
+    
+
+df_res = df_res.sort("Año")
+df_res.write.mode("overwrite").option("header", "true").option("sep",";").csv("CambTemp8.csv") # guardamos en csv
+
 
 
 
