@@ -74,6 +74,6 @@ def min_month(line):
 
 
 
-t_max_4_max = df3.rdd.map(min_month) 
-df_res = spark.createDataFrame(t_max_4_max).toDF("Año","Temp_Min") # reconvertimos a df
+t_min_4_min = df3.rdd.map(min_month) 
+df_res = spark.createDataFrame(t_min_4_min).toDF("Año","Temp_Min") # reconvertimos a df
 df_res.write.mode("overwrite").option("header", "true").option("sep",";").csv("Tmin4_results.csv") # guardamos en csv
