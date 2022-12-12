@@ -26,19 +26,28 @@ Este Github se divide en los siguientes seis apartados:
 
 Para ejecutar cualquier fichero es necesario tener instalado Python y Pyspark. Para Pyspark basta con ejecutar:
 
-pip install pyspark
+
+```
+$ pip install pyspark
+```
 
 O seguir las instrucciones en este enlace: https://spark.apache.org/docs/latest/api/python/getting_started/install.html
 
 Para ejecutar un fichero, es necesario que se encuentre en la misma carpeta que los datos, el formato es el siguiente:
 
-spark-submit <file_name>
+
+```
+$ spark-submit <file_name>
+```
 
 Los resultados aparecerán en el mismo directorio  dentro de una carpeta con el nombre apropiado que contendrá el csv de salida.
 
 Para ejecutar el archivo Todo.py que realiza todos los cálculos de una sola vez, es necesario seguir un formato distinto:
 
-spark-submit Todo.py <input_folder> <output_folder>
+
+```
+$ spark-submit Todo.py <input_folder> <output_folder>
+```
 
 Dónde input_folder es la carpeta que contiene los ficheros csv de entrada y output_folder el nombre del directorio donde se guardarán los csv resultado.
 
